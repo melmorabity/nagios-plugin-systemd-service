@@ -30,21 +30,21 @@ service=$1
 status=$(systemctl is-enabled $service 2>/dev/null)
 r=$?
 if [ -z "$status" ]; then
-    echo "ERROR: Service $service doesn't exist"
+    echo "ERROR: service $service doesn't exist"
     exit $STATE_CRITICAL
 fi
 
 if [ $r -ne 0 ]; then
-    echo "ERROR: Service $service is $status"
+    echo "ERROR: service $service is $status"
     exit $STATE_CRITICAL
 fi
 
 
 systemctl --quiet is-active $service
 if [ $? -ne 0 ]; then
-    echo "ERROR: Service $service is not running"
+    echo "ERROR: service $service is not running"
     exit $STATE_CRITICAL
 fi
 
-echo "OK: Service $service is running"
+echo "OK: service $service is running"
 exit $STATE_OK

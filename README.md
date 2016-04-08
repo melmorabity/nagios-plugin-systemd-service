@@ -13,11 +13,11 @@ Mohamed El Morabity <melmorabity -(at)- fedoraproject.org>
 ## Examples
 
     $ ./check_systemd_service.sh sshd
-    OK: Service sshd is running
+    OK: service sshd is running
 
     $ sudo systemctl stop sshd
     $ ./check_systemd_service.sh sshd
-    ERROR: Service sshd is not running
+    ERROR: service sshd is not running
 
     $ ./check_systemd_service.sh foo
-    ERROR: Service foo doesn't exist
+    ERROR: service foo doesn't exist

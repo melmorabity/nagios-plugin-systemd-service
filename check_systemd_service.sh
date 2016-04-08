@@ -15,15 +15,13 @@
 # this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-OK_STATE=0
-WARNING_STATE=1
-CRITICAL_STATE=2
-UNKNOWN_STATE=3
+PLUGINDIR=$(dirname $0)
+. $PLUGINDIR/utils.sh
 
 
 if [ $# -ne 1 ]; then
     echo "Usage: ${0##*/} <service name>" >&2
-    exit $UNKNOWN_STATE
+    exit $STATE_UNKNOWN
 fi
 
 service=$1
@@ -33,20 +31,20 @@ status=$(systemctl is-enabled $service 2>/dev/null)
 r=$?
 if [ -z "$status" ]; then
     echo "ERROR: Service $service doesn't exist"
-    exit $CRITICAL_STATE
+    exit $STATE_CRITICAL
 fi
 
 if [ $r -ne 0 ]; then
     echo "ERROR: Service $service is $status"
-    exit $CRITICAL_STATE
+    exit $STATE_CRITICAL
 fi
 
 
 systemctl --quiet is-active $service
 if [ $? -ne 0 ]; then
     echo "ERROR: Service $service is not running"
-    exit $CRITICAL_STATE
+    exit $STATE_CRITICAL
 fi
 
 echo "OK: Service $service is running"
-exit $OK_STATE
+exit $STATE_OK

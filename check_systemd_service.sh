@@ -16,8 +16,16 @@
 
 
 PLUGINDIR=$(dirname $0)
-. $PLUGINDIR/utils.sh
+LIBEXEC="$PLUGINDIR"
 
+for i in ${LIBEXEC} ; do
+  [ -r ${i}/utils.sh ] && . ${i}/utils.sh
+done
+
+if [ -z "$STATE_OK" ]; then
+  echo "nagios utils.sh not found" &>/dev/stderr
+  exit 1
+fi
 
 if [[ $# -ne 1 ]]; then
     echo "Usage: ${0##*/} <service name>"
